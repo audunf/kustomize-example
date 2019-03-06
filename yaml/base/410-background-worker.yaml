@@ -1,0 +1,35 @@
+#
+# Background worker
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: background-worker-dep
+  labels:
+    app: background-worker-dep
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: background-worker-dep
+  template:
+    metadata:
+      labels:
+        app: background-worker-dep
+    spec:
+      containers:
+        - name: background-worker-dep-container
+          image: "eu.gcr.io/<PROJECT_ID>/background-worker-container:latest"
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "256Mi"
+            limits:
+              cpu: "100m"
+              memory: "512Mi"
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              /usr/sbin/crond -f -d 8

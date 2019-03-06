@@ -1,0 +1,21 @@
+# DEVELOPMENT ENVIRONMENT
+
+# THE BELOW SECTION CONTROLS WHICH VERSIONS ARE DEPLOYED IN THE DEVELOPMENT ENVIRONMENT
+imageTags:
+  - name: eu.gcr.io/<PROJECT_ID>/background-worker-container
+    newTag: "deadbee"
+  - name: eu.gcr.io/<PROJECT_ID>/sshd-container
+    newTag: "deadbee"
+
+bases:
+  - ./../base
+
+# Files to patch
+patchesStrategicMerge:
+- 199-services.yaml
+- 301-sshd.yaml
+
+
+  # Labels to add to all resources and selectors.
+commonLabels:
+  instance: develop

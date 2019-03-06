@@ -1,0 +1,21 @@
+#
+# Background worker
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: background-worker-dep
+  labels:
+    app: background-worker-dep
+spec:
+  template:
+    spec:
+      containers:
+        - name: background-worker-dep-container
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1024Mi"

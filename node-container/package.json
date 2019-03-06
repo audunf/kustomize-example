@@ -1,0 +1,18 @@
+{
+    "name": "background-worker",
+    "version": "0.0.1",
+    "description": "Background Worker",
+    "main": "background-worker.js",
+    "private": true,
+    "scripts": {
+        "start": "node src/background-worker.js",
+        "precomit": "npm test_validation",
+        "docker-no-cache": "GIT_COMMIT=$(git log -1 --format=%h .); VERSION=$(git describe --tags --always --dirty)-$(git rev-parse --abbrev-ref HEAD); docker build --no-cache --label GIT_COMMIT=$GIT_COMMIT -t eu.gcr.io/${PROJECT_ID}/n2-api:$VERSION .",
+        "docker": "GIT_COMMIT=$(git log -1 --format=%h .); VERSION=$(git describe --tags --always --dirty)-$(git rev-parse --abbrev-ref HEAD); docker build --label GIT_COMMIT=$GIT_COMMIT -t eu.gcr.io/${PROJECT_ID}/n2-api:$VERSION .",
+        "k8s-push": "GIT_COMMIT=$(git log -1 --format=%h .); VERSION=$(git describe --tags --always --dirty)-$(git rev-parse --abbrev-ref HEAD); docker push eu.gcr.io/${PROJECT_ID}/n2-api:$VERSION",
+        "deploy": "npm run docker && npm run k8s-push"    
+    },
+    "dependencies": {
+        "lodash": "^4.17.11"
+    }
+}

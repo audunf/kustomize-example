@@ -1,0 +1,22 @@
+# PRODUCTION ENVIRONMENT
+
+# THE BELOW SECTION CONTROLS WHICH VERSIONS ARE DEPLOYED IN THE PRODUCTION ENVIRONMENT
+imageTags:
+  - name: eu.gcr.io/<PROJECT_ID>/background-worker-container		 
+    newTag: '900b447'
+  - name: eu.gcr.io/<PROJECT_ID>/sshd-container		
+    newTag: '900b447'
+
+bases:
+  - ./../base
+
+# Files to patch
+patchesStrategicMerge:
+- 199-services.yaml
+- 301-sshd.yaml
+- 410-background-worker.yaml
+
+# Labels to add to all resources and selectors.
+commonLabels:
+  instance: production
+

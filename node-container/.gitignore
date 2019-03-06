@@ -1,0 +1,17 @@
+# Emacs
+\#*\#
+.\#*
+*~
+
+# Node modules
+/node_modules
+
+# vscode debug settings
+.vscode/launch.json
+
+# Log files
+*.log
+.idea/*
+
+/.env
+

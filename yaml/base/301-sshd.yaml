@@ -1,0 +1,46 @@
+#
+# Use statefulset to get stable hostname.
+#
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sshd-sfset
+  namespace: default
+spec:
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: sshd-sfset # has to match .spec.template.metadata.labels
+  serviceName: sshd-subdomain
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sshd-sfset # has to match .spec.selector.matchLabels
+    spec:
+      subdomain: sshd-subdomain
+      containers:
+        - name: sshd-sfset-container
+          image: "eu.gcr.io/<PROJECT_ID>/sshd-container:latest"
+          imagePullPolicy: Always
+          command: ['/bin/sh', '-c', '/usr/sbin/sshd -De']
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              cpu: "100m"
+              memory: "256Mi"
+          ports:
+            - containerPort: 22
+          readinessProbe:
+            tcpSocket:
+              port: 22
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 22
+            initialDelaySeconds: 15
+            periodSeconds: 20
