@@ -1,10 +1,10 @@
 # What is this?
-This is an example of how to version Docker containers when deploying to Kubernetes using [Kustomize](https://github.com/kubernetes-sigs/kustomize). It's meant for anyone who wants to deploy the same .yaml files with different container versions to several environments - without worrying about too many moving parts.
+This is an example of how to version Docker containers when deploying to Kubernetes using [Kustomize](https://github.com/kubernetes-sigs/kustomize). It's primarily geared towards Google Kubernetes Engine (GKE). It might be a useful example for someone who wants to deploy the same .yaml files with different container versions to several environments - without worrying about too many moving parts.
 
 # TL;DR:
 Do the following to have a look at the output from Kustomize:
 
-1. Download Kustomize [Kustomize v2.0.3](https://github.com/kubernetes-sigs/kustomize/releases/tag/v2.0.3), and put it somewhere you can reach it.
+1. Download Kustomize [Kustomize v2.0.3](https://github.com/kubernetes-sigs/kustomize/releases/tag/v2.0.3), and put it somewhere you can reach it (in your `PATH`).
 2. `cd yaml`
 3. `kustomize build dev |tee dev.yaml`
 4. Look at the output. 
@@ -35,17 +35,19 @@ In the "real world" this is used with four branches:
 * master: Where all development happens. Should always build and work, although might not be fully tested.
 * develop: Whatever is currently deployed in the development environment
 * prod: Current production version. 
+
 Changes flow from master, to develop, and finally into prod. 
 
 # The version string
 To test how the version string will look for a git repo, do this: 
+
 ``` 
 echo `git describe --tags --always --dirty`-`git rev-parse --abbrev-ref HEAD` 
 ```
 
 * No tags, clean: `8024499-master`
 * No tags, dirty: `8024499-dirty-master`
-* 1.0.0 tag, dirty: `1.0.0-dirty-master`
+* 1.0.0 tag, dirty, two commits after 1.0.0 tag, with commit hash: `1.0.0-2-g7066a24-dirty-master`
 
 # Workflow
 Deployment workflow is something like this: 
