@@ -21,7 +21,7 @@ There are two advantages to this way of deploying:
 ## How it works
 Containers are tagged with the `git` hash of the last commit when built. This information is then available in the container registry. 
 
-1. If you have a tag called `1.0.0`, containers are pushed with verion set to `1.0.0-17-g15c791d-master` and tagget with last `git` commit hash
+1. If you have a tag called `1.0.0`, containers are pushed with version set to `1.0.0-17-g15c791d-master` and tagget with last `git` commit hash
 2. If you have uncommitted changes, the version will be something like: `1.0.0-12-gdf68478-dirty-master`
 3. The `prod/kustomize.yaml` and `dev/kustomize.yaml` files are used to select which version ends up in the different environments
 
@@ -30,6 +30,12 @@ There are two containers in the project.
 2. sshd-container - example of how to use a Makefile
 
 Please note that the containers are only there for example purposes. So go read the `Makefile` and the `package.json`. 
+
+In the "real world" this is used with four branches: 
+* master: Where all development happens. Should always build and work, although might not be fully tested.
+* develop: Whatever is currently deployed in the development environment
+* prod: Current production version. 
+Changes flow from master, to develop, and finally into prod. 
 
 # The version string
 To test how the version string will look for a git repo, do this: 
@@ -45,7 +51,7 @@ echo `git describe --tags --always --dirty`-`git rev-parse --abbrev-ref HEAD`
 Deployment workflow is something like this: 
 
 1. Build container using either `npm run deploy` or `make` from the container base directory. (Note: Don't expect this to work - these are examples only meant for reading)
-2. Get the version strings used in the latest builds from the container registry. Use: `./get-versions-gcloud-registry.pl` or alternatively `./get-versions-docker.pl` (these needs to be adapted).
+2. Get the version strings used in the latest builds from the container registry. Use: `./get-versions-gcloud-registry.pl`, `./get-versions-fs.sh`, or alternatively `./get-versions-docker.pl`. These are examples - not fully working.
 3. Update `yaml/dev/kustomization.yaml` or `yaml/prod/kustomization.yaml` files with version strings. 
 4. Run the `./deploy.sh` script to update the relevant environment (with either `prod`, `dev`, or `all` as argument)
 
