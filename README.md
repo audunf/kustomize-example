@@ -19,7 +19,7 @@ There are two advantages to this way of deploying:
 2. It's possible to specify different container versions for different environments based on git commit hash. The versions are all listed in one place, rather than being spread throughout the `.yaml` files,
 
 ## How it works
-Containers are tagged with the `git` hash of the last commit when built. This information is then available in the container registry. 
+Containers are tagged with the `git` hash of the last commit when built. This information is then available in the container registry. The containers are pushed with version set to a combination of tags (if present), number of commits since last tag, commit hash, and branch name. 
 
 1. If you have a tag called `1.0.0`, containers are pushed with version set to `1.0.0-17-g15c791d-master` and tagget with last `git` commit hash
 2. If you have uncommitted changes, the version will be something like: `1.0.0-12-gdf68478-dirty-master`
