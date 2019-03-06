@@ -16,7 +16,7 @@ Do the following to have a look at the output from Kustomize:
 There are two advantages to this way of deploying:
 
 1. It's possible to use the same `.yaml` files for different environments (dev, test, prod), and only specify where they differ. In this example only number of replicas,  memory and CPU limits are different. 
-2. It's possible to specify different container versions for different environments based on git commit hash. The versions are all listed in one place, rather than being spread throughout the `.yaml` files,
+2. It's possible to specify different container versions for different environments based on git commit hash. The versions are all listed in one place, rather than being spread throughout the `.yaml` files. Please have a look at the `kustomize.yaml` files in `yaml/dev` and `yaml/prod` to see how versions are selected. 
 
 ## How it works
 Containers are tagged with the `git` hash of the last commit when built. This information is then available in the container registry. The containers are pushed with version set to a combination of tags (if present), number of commits since last tag, commit hash, and branch name. 
