@@ -3,7 +3,7 @@
 echo Deploy new versions. Argument: $1
 date
 
-DEV_CLUSTER="gke_foobar-123456_europe-north1-b_xyzzy-dev-cluster"
+TEST_CLUSTER="gke_foobar-123456_europe-north1-b_xyzzy-test-cluster"
 PROD_CLUSTER="gke_foobar-123456_europe-north1-b_xyzzy-prod-cluster"
 
 if [[ $1 = "prod" || $1 = "all" ]]
@@ -15,15 +15,15 @@ then
     cd ./yaml && kustomize build prod | kubectl apply -f - && cd ..
 fi
 
-if [[ $1 = "dev" || $1 == "all" || -z "$1" ]]
+if [[ $1 = "test" || $1 == "all" || -z "$1" ]]
 then
-    echo "Deploy to DEV"
-    # 1. Make DEV cluster active
-    # kubectl config set current-context $DEV_CLUSTER
-    # 2. Create/update DEV
-    cd ./yaml && kustomize build dev | kubectl apply -f - && cd ..
+    echo "Deploy to TEST"
+    # 1. Make TEST cluster active
+    # kubectl config set current-context $TEST_CLUSTER
+    # 2. Create/update TESt
+    cd ./yaml && kustomize build test | kubectl apply -f - && cd ..
 fi
 
-# Make the DEV cluster active as default
-kubectl config set current-context $DEV_CLUSTER
+# Make the TEST cluster active as default
+kubectl config set current-context $TEST_CLUSTER
 

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # Pulls containers and tags, prints latest in a format suitable for
-# dev/kustomize.yaml or prod/kustomize.yaml
+# test/kustomize.yaml or prod/kustomize.yaml
 
 use strict;
 use Date::Parse;

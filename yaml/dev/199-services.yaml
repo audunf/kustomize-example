@@ -1,9 +1,0 @@
-#
-# Service exposing SSH to the outside world
-#
-apiVersion: v1
-kind: Service
-metadata:
-  name: sshd-svc
-spec:
-  loadBalancerIP: 10.10.10.10
